@@ -9,51 +9,44 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import utilities.Validations;
 import view.ElementGeneratorPanel;
+import javax.swing.JOptionPane;
 
 public class ElementGeneratorController {
 
     private JTextField quantityField;
+    private JButton createBtn;
 
-    public ElementGeneratorController(JTextField quantityField) {
+    public ElementGeneratorController(JTextField quantityField,JButton createBtn) {
         this.quantityField = quantityField;
     }
 
     public void initContoller() {
 
-        this.quantityField.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-                if(!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE)){
-                  e.consume();
-                }
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                char c = e.getKeyChar();
-                if(!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE)){
-                  e.consume();
-                }
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                char c = e.getKeyChar();
-                if(!(Character.isDigit(c)) || (c == KeyEvent.VK_BACK_SPACE)){
-                  e.consume();
-                }
-            }
-
-        });
+        this.createBtn.addActionListener(e->generaElemento());
         
         
         
         
     }
 
+    public void generaElemento(){
+    
+        String quantity = quantityField.getText();
+        if(Validations.validateInt(quantity)){
+        
+        }else{
+        
+             JOptionPane.showMessageDialog(null ,"Cantidad no válida","",JOptionPane.ERROR_MESSAGE);
+
+        }
+        
+    }
+    
+    
 
 }
