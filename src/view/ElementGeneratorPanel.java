@@ -117,19 +117,17 @@ public class ElementGeneratorPanel extends JPanel {
     }
 
     private void createFormPanel() {
-        JPanel panel = new JPanel();
+        
         Dimension dim = getPreferredSize();
         dim.width = 100;
-        panel.setPreferredSize(dim);
+        setPreferredSize(dim);
         Border innerBorder = BorderFactory.createTitledBorder("Generar");
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        panel.setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
+        setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
 
-        
+        setLayout(new GridBagLayout());
 
         GridBagConstraints gc = new GridBagConstraints();
-        
-        
 
         ////////////first row ///////////////////////////////////;
         gc.weightx = .5;
@@ -190,10 +188,6 @@ public class ElementGeneratorPanel extends JPanel {
         gc.insets = new Insets(0, 0, 0, 5);
         gc.anchor = GridBagConstraints.LINE_END;
         add(new JLabel(" ") , gc);
-        
-        GridBagLayout lay = new GridBagLayout();
-        lay.setConstraints(panel, gc);        
-        panel.setLayout(lay);
 
     }
 

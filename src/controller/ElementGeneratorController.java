@@ -21,32 +21,28 @@ public class ElementGeneratorController {
     private JTextField quantityField;
     private JButton createBtn;
 
-    public ElementGeneratorController(JTextField quantityField,JButton createBtn) {
+    public ElementGeneratorController(JTextField quantityField, JButton createBtn) {
         this.quantityField = quantityField;
+        this.createBtn = createBtn;
     }
 
     public void initContoller() {
 
-        this.createBtn.addActionListener(e->generaElemento());
-        
-        
-        
-        
+        this.createBtn.addActionListener(e -> generaElemento());
+
     }
 
-    public void generaElemento(){
-    
+    public void generaElemento() {
+
         String quantity = quantityField.getText();
-        if(Validations.validateInt(quantity)){
-        
-        }else{
-        
-             JOptionPane.showMessageDialog(null ,"Cantidad no válida","",JOptionPane.ERROR_MESSAGE);
+        if (Validations.validateInt(quantity)) {
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Cantidad no válida", "", JOptionPane.ERROR_MESSAGE);
 
         }
-        
+
     }
-    
-    
 
 }
