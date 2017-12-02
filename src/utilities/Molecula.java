@@ -7,12 +7,15 @@
 package utilities;
 
 import elementos.Elemento;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class Molecula {
     
     private List<Elemento> elementos;
+    
+   
     
     public Molecula() {
     }

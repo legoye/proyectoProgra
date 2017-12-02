@@ -39,11 +39,17 @@ public class ReactorElementsConfigurationPanel extends JPanel implements ItemLis
     private  JCheckBox typeMetalTransicionCheck;
     private  JCheckBox typeMetalBloquePCheck;
     
+    private  JCheckBox typeMetaloidesCheck;
+    
+    private  JCheckBox typeHalogenosCheck;
+    
+    private  JCheckBox typePnictogenosNoblesCheck;
+    
+    private  JCheckBox typeChalcogenosCheck;    
+    
     private  JCheckBox typeNoMetalCheck;
     private  JCheckBox typeNoMetalOtrosCheck;
     private  JCheckBox typeNoMetalGasesNoblesCheck;
-  
-    
 
     
     private final JLabel stateLabel;
@@ -52,9 +58,8 @@ public class ReactorElementsConfigurationPanel extends JPanel implements ItemLis
 
     public ReactorElementsConfigurationPanel() {
        
-        
-        this.stateLabel = new JLabel("Estado: ");
-        this.typeLabel = new JLabel("Tipo: ");
+        // init first elements       
+        this.stateLabel = new JLabel("Estado: ");        
         this.marginLabel = new JLabel("");
         this.stateAllCheck = new JCheckBox("Todos");
         this.stateAllCheck.setMnemonic(KeyEvent.VK_C);
@@ -68,37 +73,53 @@ public class ReactorElementsConfigurationPanel extends JPanel implements ItemLis
         this.stateLiquidCheck= new JCheckBox("Líquidos");
         this.stateLiquidCheck.setMnemonic(KeyEvent.VK_C);
         this.stateLiquidCheck.setEnabled(false);
-
         
+        // init second elements 
+
+        this.typeLabel = new JLabel("Tipo: ");
+        
+        this.typeMetalCheck = new JCheckBox("Metales");
+        this.typeMetalCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalCheck.setSelected(true);
+        this.typeMetalAlcalinoterreosCheck = new JCheckBox("Acalinotérreos");
+        this.typeMetalAlcalinoterreosCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalAlcalinoterreosCheck.setSelected(true);    
+        this.typeMetalAlalinosCheck = new JCheckBox("Alcalinos");
+        this.typeMetalAlalinosCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalAlalinosCheck.setSelected(true);    
+        this.typeMetalLantanidosCheck = new JCheckBox("Lantanidos");
+        this.typeMetalLantanidosCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalLantanidosCheck.setSelected(true); 
+        this.typeMetalActinidosCheck = new JCheckBox("Actínidos");
+        this.typeMetalActinidosCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalActinidosCheck.setSelected(true); 
+        this.typeMetalTransicionCheck = new JCheckBox("De transición");
+        this.typeMetalTransicionCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalTransicionCheck.setSelected(true);
+        this.typeMetalBloquePCheck = new JCheckBox("Bloque p");
+        this.typeMetalBloquePCheck.setMnemonic(KeyEvent.VK_C);
+        this.typeMetalBloquePCheck.setSelected(true); 
         
         //Register a listener for the check boxes.
+        
+        // first form elements
         stateAllCheck.addItemListener(this);
         stateSolidCheck.addItemListener(this);
         stateGasCheck.addItemListener(this);
         stateLiquidCheck.addItemListener(this);
         
+         // second form elements
+        typeMetalCheck.addItemListener(this);
+        typeMetalAlalinosCheck.addItemListener(this);
+        typeMetalAlcalinoterreosCheck.addItemListener(this);
+        typeMetalLantanidosCheck.addItemListener(this);
+        typeMetalActinidosCheck.addItemListener(this);
+        typeMetalTransicionCheck.addItemListener(this);
+        typeMetalBloquePCheck.addItemListener(this);
+        
         createFormPanel();
         
-//        //Put the check boxes in a column in a panel
-//        JPanel checkPanel = new JPanel();
-//        GridLayout grid = new GridLayout(2,0);
-//        grid.addLayoutComponent("", checkPanel);
-//        checkPanel.add(stateLabel);
-//        checkPanel.add(stateAllCheck);
-//        checkPanel.add(stateSolidCheck);
-//        checkPanel.add(stateGasCheck);
-//        checkPanel.add(stateLiquidCheck);
-//        checkPanel.add(typeLabel);
-//       
-//        add(checkPanel, BorderLayout.LINE_START);
-////        //Put the check boxes in a column in a panel
-//        JPanel checkPanel2 = new JPanel(new GridLayout(1, 0));
-//        checkPanel2.add(typeLabel);
-//        add(checkPanel2, BorderLayout.LINE_START);
-//        
-//        Border innerBorder = BorderFactory.createTitledBorder("Configuración Elementos");
-//        Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-//        setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
+
   
         
     }
@@ -198,10 +219,10 @@ public class ReactorElementsConfigurationPanel extends JPanel implements ItemLis
         add(stateSolidCheck, gc);
         
         
-        gc.weightx = 1;
-        gc.gridx = 5;
-        gc.anchor = GridBagConstraints.LINE_START;
-        add(marginLabel, gc);
+//        gc.weightx = 1;
+//        gc.gridx = 5;
+//        gc.anchor = GridBagConstraints.LINE_START;
+//        add(marginLabel, gc);
 
       
 
@@ -214,6 +235,34 @@ public class ReactorElementsConfigurationPanel extends JPanel implements ItemLis
         gc.insets = new Insets(0, 0, 0, 5);
         gc.anchor = GridBagConstraints.NORTHEAST;
         add(typeLabel, gc);
+
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalCheck, gc);
+        
+        gc.gridx = 2;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalAlalinosCheck, gc);
+        
+        gc.gridx = 3;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalAlcalinoterreosCheck, gc);
+        
+        gc.gridx = 4;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalLantanidosCheck, gc);
+        
+        gc.gridx = 5;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalActinidosCheck, gc);
+        
+        gc.gridx = 6;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalTransicionCheck, gc);
+        
+        gc.gridx = 7;
+        gc.anchor = GridBagConstraints.NORTHEAST;
+        add(typeMetalBloquePCheck, gc);
 
 
 

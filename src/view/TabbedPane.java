@@ -28,12 +28,12 @@ public class TabbedPane extends JPanel {
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
         JComponent panel2 = makeTextPanel("Panel #2");
-        tabbedPane.addTab("Mis Elementos y moléculas", icon, panel2,
+        tabbedPane.addTab("Mis Moleculas /  Reactor", icon, panel2,
                 "Mis moléculas y elementos");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
         JComponent panel3 = MakeConfigurationContent();
-        tabbedPane.addTab("Reactor", icon, panel3,
+        tabbedPane.addTab("Configuración reactor", icon, panel3,
                 "Still does nothing");
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
@@ -59,7 +59,7 @@ public class TabbedPane extends JPanel {
 //        filler.setHorizontalAlignment(JLabel.CENTER);
 //        panel.setLayout(new GridLayout(1, 1));
 //        panel.add(filler);
-        JPanel panel = new ElementsGeneratorPanel();
+        JPanel panel = new ElementGeneratorPanel();
 
 
         return panel;
