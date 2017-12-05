@@ -56,8 +56,8 @@ public class ElementGeneratorPanel extends JPanel {
         createValencyComboBox();
         createElementComboBox();        
         createFormPanel();
-        elementGeneratorController = new ElementGeneratorController(quantityField,createBtn);
-        elementGeneratorController.initContoller();
+       
+        
         
     }
 
@@ -190,5 +190,31 @@ public class ElementGeneratorPanel extends JPanel {
         add(new JLabel(" ") , gc);
 
     }
+
+    public JComboBox<String> getElementComboBox() {
+        return elementComboBox;
+    }
+
+    public void setElementComboBox(JComboBox<String> elementComboBox) {
+        this.elementComboBox = elementComboBox;
+    }
+
+    public JTextField getQuantityField() {
+        return quantityField;
+    }
+
+    public void setQuantityField(JTextField quantityField) {
+        this.quantityField = quantityField;
+    }
+
+    public JButton getCreateBtn() {
+        return createBtn;
+    }
+
+    public void setCreateBtn(JButton createBtn) {
+        this.createBtn = createBtn;
+    }
+    
+    
 
 }

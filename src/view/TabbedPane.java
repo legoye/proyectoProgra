@@ -5,9 +5,13 @@
  */
 package view;
 
+import Model.ReactorData;
+import controller.ElementGeneratorController;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -22,12 +26,12 @@ public class TabbedPane extends JPanel {
         JTabbedPane tabbedPane = new JTabbedPane();
         ImageIcon icon = createImageIcon("images/middle.gif");
 
-        JComponent panel1 = MakeElementsContent();
+        JPanel panel1 = (JPanel) MakeElementsContent();
         tabbedPane.addTab("Generar Elementos", icon, panel1,
                 "Genera Elementos Químicos");
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
-        JComponent panel2 = makeTextPanel("Panel #2");
+        JPanel panel2 = (JPanel) MakeReactorContent();
         tabbedPane.addTab("Mis Moleculas /  Reactor", icon, panel2,
                 "Mis moléculas y elementos");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
@@ -38,10 +42,13 @@ public class TabbedPane extends JPanel {
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
         //Add the tabbed pane to this panel.
-        add(tabbedPane);
+        add(tabbedPane);        
 
         //The following line enables to use scrolling tabs.
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+        
+        ElementGeneratorController controller = new ElementGeneratorController(panel1,panel2);
+        controller.initContoller();
     }
 
     protected JComponent makeTextPanel(String text) {
@@ -52,27 +59,30 @@ public class TabbedPane extends JPanel {
         panel.add(filler);
         return panel;
     }
-    
-    protected JComponent MakeElementsContent() {
-//        JPanel panel = new JPanel(false);
-//        JLabel filler = new JLabel("Generar Elemetnos");
-//        filler.setHorizontalAlignment(JLabel.CENTER);
-//        panel.setLayout(new GridLayout(1, 1));
-//        panel.add(filler);
-        JPanel panel = new ElementGeneratorPanel();
 
+    protected JComponent MakeElementsContent() {
+
+        JPanel panel = new ElementGeneratorPanel();
 
         return panel;
     }
-    
+
     protected JComponent MakeConfigurationContent() {
+
+        JPanel panel = new ReactorElementsConfigurationPanel();
+
+        return panel;
+    }
+
+    protected JComponent MakeReactorContent() {
 //        JPanel panel = new JPanel(false);
 //        JLabel filler = new JLabel("Generar Elemetnos");
 //        filler.setHorizontalAlignment(JLabel.CENTER);
 //        panel.setLayout(new GridLayout(1, 1));
 //        panel.add(filler);
-        JPanel panel = new ReactorElementsConfigurationPanel();
-
+        ReactorPanel panel = new ReactorPanel();
+        List<ReactorData> data =  new ArrayList<>();        
+        panel.setData(data);
 
         return panel;
     }
