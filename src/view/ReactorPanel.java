@@ -17,6 +17,7 @@ import java.awt.Insets;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,28 +31,36 @@ public class ReactorPanel extends JPanel {
     private JButton importBtn;
     private JButton exportBtn;
     private JButton reactBtn;
+    private JButton clearBtn;
+    
+    private JFileChooser fileChooser;
 
     public ReactorPanel() {
         setLayout(new GridBagLayout());
-
-        GridBagConstraints gc = new GridBagConstraints();
-
-      
         
         Border innerBorder = BorderFactory.createTitledBorder("Reactor");
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-
+        
+        this.exportBtn = new JButton("Exportar");
+        this.importBtn = new JButton("Importar");
+        this.reactBtn = new JButton("Raccionar");
+        this.clearBtn = new JButton("Vaciar Reactor");
+        this.fileChooser = new JFileChooser();
+        
+        
         tableModel = new DataTableReactorModel();
         table = new JTable(tableModel);
         
+
+        GridBagConstraints gc = new GridBagConstraints();
+
         //      table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         //     table.setFillsViewportHeight(true);
-
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
-        
-         ////////////first row ///////////////////////////////////;
+
+        ////////////first row ///////////////////////////////////;
         gc.weightx = .5;
         gc.weighty = 0.1;
         gc.gridy = 1;
@@ -59,31 +68,29 @@ public class ReactorPanel extends JPanel {
         gc.insets = new Insets(0, 0, 0, 5);
         gc.anchor = GridBagConstraints.WEST;
         add(scrollPane, gc);
-        
-        gc.gridy = 0;
-        gc.gridx = 1;
-        gc.insets = new Insets(0, 0, 0, 5);
-        
-        this.exportBtn = new JButton("Exportar");
-        this.importBtn = new JButton("Importar");
-        this.reactBtn = new JButton("Raccionar");
-        		
-        add(exportBtn, gc);
+
         gc.gridy = 0;
         gc.gridx = 2;
         gc.insets = new Insets(0, 0, 0, 5);
+        gc.anchor = GridBagConstraints.WEST;
         add(importBtn, gc);
-        
-        gc.gridy = 0;
-        gc.gridx = 1;
-        gc.insets = new Insets(0, 0, 0, 5);        
-        add(exportBtn, gc);
-        
+
+//        gc.gridy = 0;
+//        gc.gridx = 1;
+//        gc.insets = new Insets(0, 0, 0, 5);
+//        add(exportBtn, gc);
+
         gc.gridy = 0;
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.WEST;
         gc.insets = new Insets(0, 0, 0, 5);
         add(reactBtn, gc);
+        
+        gc.gridy = 0;
+        gc.gridx = 1;
+        gc.anchor = GridBagConstraints.WEST;
+        gc.insets = new Insets(0, 0, 0, 5);
+        add(clearBtn, gc);
 
     }
 
@@ -117,5 +124,31 @@ public class ReactorPanel extends JPanel {
     public void setTableModel(DataTableReactorModel tableModel) {
         this.tableModel = tableModel;
     }
+
+    public JButton getImportBtn() {
+        return importBtn;
+    }
+
+    public JButton getExportBtn() {
+        return exportBtn;
+    }
+
+    public JButton getReactBtn() {
+        return reactBtn;
+    }
+
+    public JFileChooser getFileChooser() {
+        return fileChooser;
+    }
+
+    public JButton getClearBtn() {
+        return clearBtn;
+    }
+
+    public void setClearBtn(JButton clearBtn) {
+        this.clearBtn = clearBtn;
+    }
+    
+    
 
 }

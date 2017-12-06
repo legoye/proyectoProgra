@@ -5,7 +5,8 @@
  */
 package view;
 
-import controller.ElementGeneratorController;
+import Model.ElementoConstant;
+import controller.AppController;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -18,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import utilities.Filtrar;
 
 public class ElementGeneratorPanel extends JPanel {
 
@@ -34,7 +36,7 @@ public class ElementGeneratorPanel extends JPanel {
     private JComboBox<String> elementComboBox;
     private JTextField quantityField;
     private JButton createBtn;
-    private ElementGeneratorController elementGeneratorController;
+    private AppController elementGeneratorController;
     
     
 
@@ -108,9 +110,15 @@ public class ElementGeneratorPanel extends JPanel {
     private void createElementComboBox() {
         elementComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
-        empModel.addElement("Ac");
-        empModel.addElement("Metal Largo 2");
-        empModel.addElement("Metal 3");
+        
+        Object[][] elementos = ElementoConstant.elementos;
+        Object[] elementsByFilters = Filtrar.getElementsByFilters(elementos);
+        
+        for (int i =0 ; i < elementsByFilters.length ; i++){
+        
+            empModel.addElement((String)elementsByFilters[i]);
+        }
+       
         elementComboBox.setModel(empModel);
         elementComboBox.setSelectedIndex(0);
 

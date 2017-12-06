@@ -6,6 +6,7 @@
 package utilities;
 
 import elementos.Elemento;
+import java.util.List;
 
 public class Utilities {
 
@@ -18,8 +19,29 @@ public class Utilities {
         }
         return e;
     }
+
+    public static String getFileExtension(String name) {
+
+        int pointIndex = name.lastIndexOf(".");
+       
+        if (pointIndex == -1) {
+            return null;
+        }
+        
+        if (pointIndex == name.length() - 1) {
+            return null;
+        }
+
+        return name.substring(pointIndex + 1, name.length());
+    }
     
     
+     public List<Elemento> reaccionarElementos(List<Elemento> elementos){
+        
+        
+    
+        return elementos;
+    }
     
 
 }

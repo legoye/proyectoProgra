@@ -9,9 +9,10 @@ package utilities;
 import elementos.Elemento;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 
-public class Molecula {
+public class Molecula extends Elemento {
     
     private List<Elemento> elementos;
     
@@ -37,15 +38,10 @@ public class Molecula {
         return "Molecula{" + "elementos=" + elementos + '}';
     }
     
-    
-    
-    public List<Elemento> reaccionarElementos(List<Elemento> elementos){
-        
-        
-    
-        return elementos;
+   
+    public void setValencia(int valencia) {
+        this.valencia = valencia;
     }
-    
-    
+  
     
 }

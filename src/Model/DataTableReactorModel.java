@@ -17,7 +17,7 @@ public class DataTableReactorModel extends AbstractTableModel {
     private List<ReactorData> data = new ArrayList();
 
 
-    private String[] colNames = {"Cantidad", "Elemento", "Valencia"};
+    private String[] colNames = {"Elemento", "Valencia"};
 
     public DataTableReactorModel() {
            
@@ -52,11 +52,10 @@ public class DataTableReactorModel extends AbstractTableModel {
 
         switch (columnIndex) {
             case 0:
-                return reactorData.getCount();
-            case 1:
                 return reactorData.getElement();
-            case 2:
+            case 1:
                 return reactorData.getValencia();
+         
 
         }
         return null;
@@ -67,5 +66,7 @@ public class DataTableReactorModel extends AbstractTableModel {
         data.add(rowData);
        // fireTableRowsInserted(data.size() - 1, data.size() - 1);
     }
+    
+    
 
 }

@@ -6,7 +6,7 @@
 package view;
 
 import Model.ReactorData;
-import controller.ElementGeneratorController;
+import controller.AppController;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
@@ -42,12 +42,12 @@ public class TabbedPane extends JPanel {
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
         //Add the tabbed pane to this panel.
-        add(tabbedPane);        
+        add(tabbedPane);
 
         //The following line enables to use scrolling tabs.
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        
-        ElementGeneratorController controller = new ElementGeneratorController(panel1,panel2);
+
+        AppController controller = new AppController(panel1, panel2);
         controller.initContoller();
     }
 
@@ -81,7 +81,7 @@ public class TabbedPane extends JPanel {
 //        panel.setLayout(new GridLayout(1, 1));
 //        panel.add(filler);
         ReactorPanel panel = new ReactorPanel();
-        List<ReactorData> data =  new ArrayList<>();        
+        List<ReactorData> data = new ArrayList<>();
         panel.setData(data);
 
         return panel;
