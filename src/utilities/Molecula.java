@@ -7,6 +7,7 @@
 package utilities;
 
 import elementos.Elemento;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -14,11 +15,13 @@ import java.util.Random;
 
 public class Molecula extends Elemento {
     
-    private List<Elemento> elementos;
+    public List<Elemento> elementos;
     
    
     
     public Molecula() {
+        this.elementos = new ArrayList();
+      
     }
    
     public Molecula(List<Elemento> elementos) {
