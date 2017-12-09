@@ -7,18 +7,25 @@ package view;
 
 import Model.ReactorData;
 import controller.AppController;
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 public class TabbedPane extends JPanel {
+
+    JPanel panelForm;
 
     public TabbedPane() {
         super(new GridLayout(1, 1));
@@ -61,6 +68,25 @@ public class TabbedPane extends JPanel {
     }
 
     protected JComponent MakeElementsContent() {
+        
+//        Container contentPane = this.;
+//        contentPane.setLayout(new GridLayout(0, 1))
+//
+//        Box horizontalBox;
+//        horizontalBox = Box.createHorizontalBox();
+//
+//        horizontalBox.add(Box.createVerticalStrut(0));
+//        panelForm = new ElementGeneratorPanel();
+//        horizontalBox.add(panelForm);
+//
+//        JPanel panelG = new JPanel(new BorderLayout());
+//        panelG.add(horizontalBox);
+//
+//        horizontalBox = Box.createHorizontalBox();
+//        panel = new JPanel(new BorderLayout());
+//        panel.add(horizontalBox);
+//        panel.setBorder(BorderFactory.createTitledBorder("2 Middle Struts"));
+//        contentPane.add(panel);
 
         JPanel panel = new ElementGeneratorPanel();
 

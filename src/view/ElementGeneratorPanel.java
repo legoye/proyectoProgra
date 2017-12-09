@@ -7,14 +7,22 @@ package view;
 
 import Model.ElementoConstant;
 import controller.AppController;
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -36,8 +44,10 @@ public class ElementGeneratorPanel extends JPanel {
     private JComboBox<String> elementComboBox;
     private JTextField quantityField;
     private JButton createBtn;
+    private JButton serialize;
     private AppController elementGeneratorController;
-    
+    private GridBagLayout mainLayout;
+    private GridBagConstraints mainCons; 
     
 
     public ElementGeneratorPanel() {
@@ -49,18 +59,29 @@ public class ElementGeneratorPanel extends JPanel {
         this.elementLabel = new JLabel("Elemento:");
         this.quantityLabel = new JLabel("Cantidad:");
         this.quantityField = new JTextField(10);
-        this.createBtn = new JButton("Generar");
-        
-        
+        this.createBtn = new JButton("Enviar al reactor");
+        this.serialize = new JButton("Serializar");
+        mainLayout = new GridBagLayout();
+        mainCons = new GridBagConstraints();
+        this.setLayout(mainLayout);
+
         createStateComboBox();
         createFamilyComboBox();
         createSubFamilyComboBox();
         createValencyComboBox();
-        createElementComboBox();        
-        createFormPanel();
+        createElementComboBox();
+        mainCons.gridy = 1;
+        mainCons.gridx = 1;
+        mainCons.anchor = GridBagConstraints.NORTH;
+        this.add(createImagePanel(),mainCons);
+        mainCons.gridy = 2;
+        mainCons.gridx = 1;
+        mainCons.anchor = GridBagConstraints.CENTER;
+        mainCons.insets = new Insets(40,0,0,0);
+        this.add(createCenterPanel(),mainCons);
        
         
-        
+
     }
 
     private void createStateComboBox() {
@@ -73,7 +94,7 @@ public class ElementGeneratorPanel extends JPanel {
         stateComboBox.setSelectedIndex(0);
 
     }
-    
+
     private void createFamilyComboBox() {
         familyComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
@@ -84,7 +105,7 @@ public class ElementGeneratorPanel extends JPanel {
         familyComboBox.setSelectedIndex(0);
 
     }
-    
+
     private void createSubFamilyComboBox() {
         subfamilyComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
@@ -95,7 +116,7 @@ public class ElementGeneratorPanel extends JPanel {
         subfamilyComboBox.setSelectedIndex(0);
 
     }
-    
+
     private void createValencyComboBox() {
         valencyComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
@@ -106,34 +127,123 @@ public class ElementGeneratorPanel extends JPanel {
         valencyComboBox.setSelectedIndex(0);
 
     }
-    
+
     private void createElementComboBox() {
         elementComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
-        
+
         Object[][] elementos = ElementoConstant.elementos;
         Object[] elementsByFilters = Filtrar.getElementsByFilters(elementos);
-        
-        for (int i =0 ; i < elementsByFilters.length ; i++){
-        
-            empModel.addElement((String)elementsByFilters[i]);
+
+        for (int i = 0; i < elementsByFilters.length; i++) {
+
+            empModel.addElement((String) elementsByFilters[i]);
         }
-       
+
         elementComboBox.setModel(empModel);
         elementComboBox.setSelectedIndex(0);
 
     }
+    
+     private JPanel createCenterPanel()
+    {
+        JPanel centerPanel = new JPanel();
 
-    private void createFormPanel() {
+        GridBagLayout gbl = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        centerPanel.setLayout(gbl);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,0,0,0);
+        centerPanel.add(familyLabel,gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,0,0,0);
+        centerPanel.add(familyComboBox,gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(subfamilyLabel,gbc);
+
+        gbc.gridx = 4;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(subfamilyComboBox,gbc);
+
+        gbc.gridx = 5;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.WEST;
+        gbc.insets = new Insets(20,0,0,0);
+        centerPanel.add(stateLabel,gbc);
+
+        gbc.gridx = 6;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,0,0,0);
+        centerPanel.add(stateComboBox,gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(elementLabel,gbc);
+
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(elementComboBox,gbc);
         
-        Dimension dim = getPreferredSize();
-        dim.width = 100;
-        setPreferredSize(dim);
-        Border innerBorder = BorderFactory.createTitledBorder("Generar");
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(quantityLabel,gbc);
+        
+        gbc.gridx = 4;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(quantityField,gbc);
+
+        gbc.gridx = 5;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,7,0,0);
+        centerPanel.add(createBtn,gbc);
+        
+        gbc.gridx = 6;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,7,0,0);
+        centerPanel.add(serialize,gbc);
+
+
+
+        centerPanel.setBorder(BorderFactory.createTitledBorder("Crear elementos"));
+        centerPanel.validate();
+
+        return centerPanel;
+
+    }
+
+    private JPanel createFormPanel() {
+
+
+        Border innerBorder = BorderFactory.createTitledBorder("Elementos");
         Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
         setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-
-        setLayout(new GridBagLayout());
+        JPanel northPanel = new JPanel();
+        
+        northPanel.setLayout(new GridBagLayout());
 
         GridBagConstraints gc = new GridBagConstraints();
 
@@ -157,9 +267,9 @@ public class ElementGeneratorPanel extends JPanel {
         gc.gridx = 3;
         gc.anchor = GridBagConstraints.LINE_START;
         add(subfamilyComboBox, gc);
-        
+
         gc.gridy = 1;
-        
+
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.LINE_START;
         add(elementLabel, gc);
@@ -187,17 +297,43 @@ public class ElementGeneratorPanel extends JPanel {
         gc.gridx = 6;
         gc.anchor = GridBagConstraints.LINE_START;
         add(createBtn, gc);
-        
-        
+
         gc.weightx = .5;
         gc.weighty = 1;
         gc.gridy = 2;
         gc.gridx = 0;
         gc.insets = new Insets(0, 0, 0, 5);
         gc.anchor = GridBagConstraints.LINE_END;
-        add(new JLabel(" ") , gc);
+        add(new JLabel(" "), gc);
+
+        gc.weightx = 400;
+        gc.weighty = 200;
+        gc.gridy = 3;
+        gc.gridx = 0;
+        gc.insets = new Insets(0, 0, 0, 5);
+        gc.anchor = GridBagConstraints.SOUTH;
+        
+     
+        return northPanel;
 
     }
+    
+     private JPanel createImagePanel() {
+           
+            JPanel imagePanel = new JPanel();
+
+            imagePanel = new JPanel();
+            imagePanel.setLayout(new GridLayout());
+
+            JLabel logoLabel = new JLabel();
+            logoLabel.setIcon(new ImageIcon(getClass().getResource("/images/tabla.png")));
+            logoLabel.setPreferredSize(new Dimension(500, 300));
+            imagePanel.add(logoLabel);
+            
+
+            return imagePanel;
+         
+     }
 
     public JComboBox<String> getElementComboBox() {
         return elementComboBox;
@@ -222,7 +358,5 @@ public class ElementGeneratorPanel extends JPanel {
     public void setCreateBtn(JButton createBtn) {
         this.createBtn = createBtn;
     }
-    
-    
 
 }

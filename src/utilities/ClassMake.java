@@ -33,17 +33,12 @@ public class ClassMake {
         //    String ruta = System.getProperty("user.home") + "/elementos/";
 
         String ruta = new File("").getAbsolutePath();
-
         System.out.println(ruta);
-
         ClassPool pool = ClassPool.getDefault();
         CtClass cc = pool.makeClass(nombreClase);
-
         CtClass CompuestoPadre = pool.get("utilities.Molecula");
         cc.setSuperclass(CompuestoPadre);
-
         System.out.println("padre " + CompuestoPadre);
-
         //
         //String cadenaAddElementos = "super.elementos.add(new elementos.H(1));super.elementos.add(new elementos.O(2));super.elementos.add(new elementos.H(1));";
         String cadenaAddElementos = "";

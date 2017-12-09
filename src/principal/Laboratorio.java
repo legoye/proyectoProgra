@@ -37,18 +37,19 @@ public class Laboratorio {
 
         System.out.println(Arrays.toString(Filtrar.getValencyByElement("Ag", ElementoConstant.elementos)));
         String e = "H";
-        String basePath = new File("").getAbsolutePath();
-        File file = new File(basePath);
-        System.out.println("base path " +basePath);
-        File raizPaquete = file.getParentFile().getParentFile();
-        URL url = raizPaquete.toURL();
-        URL[] urls = new URL[]{url};
-        ClassLoader cl = new URLClassLoader(urls);
+
+//        String basePath = new File("").getAbsolutePath();
+//        File file = new File(basePath);
+//        System.out.println("base path " +basePath);
+//        File raizPaquete = file.getParentFile().getParentFile();
+//        URL url = raizPaquete.toURL();
+//        URL[] urls = new URL[]{url};
+//        ClassLoader cl = new URLClassLoader(urls);
         Class clas = null;
         Elemento newInstance = null;
 
         try {
-            clas = cl.loadClass("elementos." + e);
+            clas = Class.forName("elementos." + e);
             System.out.println(clas);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
@@ -83,48 +84,65 @@ public class Laboratorio {
         NoMetal.OtroNoMetal h2 = new H();
         Elemento eh2 = (H) h2;
         System.out.println(eh2.getValencia());
+        
+        int valenciaM = o2.getValencia() + newInstance.getValencia() + eh2.getValencia();
 
+        
+        // agrega los elementos a una lista 
+        
         List<Elemento> atomos = new ArrayList();
         atomos.add(o2);
         atomos.add(newInstance);
         atomos.add(eh2);
 
-        int valenciaM = o2.getValencia() + newInstance.getValencia() + eh2.getValencia();
+        // Crea la molecula
 
         Molecula m = new Molecula(atomos);
         m.setValencia(valenciaM);
         System.out.println("valencia molecula " + m.getValencia());
-        ObjectOutput oo = new ObjectOutputStream(new FileOutputStream("C:\\io\\x.file"));
-        oo.writeObject(m);
-        System.out.println("molecula creada ---> " + m);
-        oo.close();
-
-        try {
-            FileInputStream fin = new FileInputStream("C:\\io\\x.file");
-            ObjectInputStream ois = new ObjectInputStream(fin);
-            Molecula moleculaLeida = (Molecula) ois.readObject();
-            ois.close();
-            System.out.println("---> " + moleculaLeida.getElementos());
-            //    return (Molecula) moleculaLeida;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("message: " + ex.getMessage());
-        }
-
-        /// class maker with java assist 
-        System.out.println(ClassMake.getArrElementosConstructores(m));;
+        System.out.println("obteniendo elementos de la molecula : " +ClassMake.getArrElementosConstructores(m));
+        
+        
+        // crea la clase de la molecula
+        
         try {
             ClassMake.makeClass("test", m);
         } catch (NotFoundException | CannotCompileException ex) {
             Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        // leé la clase creada
 
         try {
-            Class  classs = Class.forName("test");
-            for(Constructor<?> c: classs.getConstructors())
-			System.out.println(c);
+            Class classs = Class.forName("test");
+            for (Constructor<?> c : classs.getConstructors()) {
+                System.out.println(c);
+            }
+            
+            // instancia la clase creada
 
             Molecula o = (Molecula) classs.newInstance();
+
+            // serializa la molecula
+            ObjectOutput oo = new ObjectOutputStream(new FileOutputStream("C:\\io\\x.file"));
+            oo.writeObject(m);
+            System.out.println("molecula creada ---> " + o);
+            oo.close();
+            
+            // deseraliza la molecula
+
+            try {
+                FileInputStream fin = new FileInputStream("C:\\io\\x.file");
+                ObjectInputStream ois = new ObjectInputStream(fin);
+                Molecula moleculaLeida = (Molecula) ois.readObject();
+                ois.close();
+                System.out.println("---> " + moleculaLeida.getElementos());
+                //    return (Molecula) moleculaLeida;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.out.println("message: " + ex.getMessage());
+            }
+
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
         }
