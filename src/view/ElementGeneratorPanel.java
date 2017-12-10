@@ -72,6 +72,8 @@ public class ElementGeneratorPanel extends JPanel {
         createElementComboBox();
         mainCons.gridy = 1;
         mainCons.gridx = 1;
+         
+        
         mainCons.anchor = GridBagConstraints.NORTH;
         this.add(createImagePanel(),mainCons);
         mainCons.gridy = 2;
@@ -120,9 +122,11 @@ public class ElementGeneratorPanel extends JPanel {
     private void createValencyComboBox() {
         valencyComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
-        empModel.addElement("Todos");
-        empModel.addElement("Metal Largo 2");
-        empModel.addElement("Metal 3");
+        empModel.addElement("Aleatoria");
+        empModel.addElement("+1");
+        empModel.addElement("+2");
+        empModel.addElement("-1");
+        empModel.addElement("-2");
         valencyComboBox.setModel(empModel);
         valencyComboBox.setSelectedIndex(0);
 
@@ -193,7 +197,7 @@ public class ElementGeneratorPanel extends JPanel {
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(20,10,0,0);
+        gbc.insets = new Insets(20,0,0,0);
         centerPanel.add(elementLabel,gbc);
 
         gbc.gridx = 2;
@@ -206,22 +210,34 @@ public class ElementGeneratorPanel extends JPanel {
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(20,10,0,0);
-        centerPanel.add(quantityLabel,gbc);
+        centerPanel.add(valencyLabel,gbc);
         
         gbc.gridx = 4;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(20,10,0,0);
-        centerPanel.add(quantityField,gbc);
-
+        centerPanel.add(valencyComboBox,gbc);
+        
         gbc.gridx = 5;
         gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(quantityLabel,gbc);
+        
+        gbc.gridx = 6;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(20,10,0,0);
+        centerPanel.add(quantityField,gbc);
+
+        gbc.gridx = 3;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(20,7,0,0);
         centerPanel.add(createBtn,gbc);
         
-        gbc.gridx = 6;
-        gbc.gridy = 2;
+        gbc.gridx = 4;
+        gbc.gridy = 3;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(20,7,0,0);
         centerPanel.add(serialize,gbc);
@@ -338,6 +354,13 @@ public class ElementGeneratorPanel extends JPanel {
     public JComboBox<String> getElementComboBox() {
         return elementComboBox;
     }
+
+    public JComboBox<String> getValencyComboBox() {
+        return valencyComboBox;
+    }
+    
+    
+    
 
     public void setElementComboBox(JComboBox<String> elementComboBox) {
         this.elementComboBox = elementComboBox;

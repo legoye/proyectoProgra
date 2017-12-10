@@ -32,6 +32,10 @@ public class DataTableReactorModel extends AbstractTableModel {
     public void setData(List<ReactorData>data) {
         this.data = data;
     }
+    
+    public List<ReactorData> getData() {
+        return this.data;
+    }
 
     @Override
     public int getRowCount() {

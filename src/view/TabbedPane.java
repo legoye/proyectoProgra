@@ -6,6 +6,7 @@
 package view;
 
 import Model.ReactorData;
+import Model.ReactorTableListener;
 import controller.AppController;
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -109,7 +110,13 @@ public class TabbedPane extends JPanel {
         ReactorPanel panel = new ReactorPanel();
         List<ReactorData> data = new ArrayList<>();
         panel.setData(data);
+        panel.setReactorTableListener(new ReactorTableListener(){
+			public void rowDeleted(int row){
+				controller.removePerson(row);
+		}
+	});
 
+        
         return panel;
     }
 

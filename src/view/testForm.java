@@ -60,7 +60,7 @@ public class testForm extends JFrame
         mainCons.gridy = 2;
         mainCons.gridx = 1;
         mainCons.anchor = GridBagConstraints.CENTER;
-        mainCons.insets = new Insets(15,0,0,0);
+        mainCons.insets = new Insets(1,0,0,0);
         this.add(createCenterPanel(),mainCons);
 
         mainCons.anchor = GridBagConstraints.SOUTH;

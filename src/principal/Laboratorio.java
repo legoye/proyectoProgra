@@ -1,6 +1,8 @@
 package principal;
 
+import Model.DataTableReactorModel;
 import Model.ElementoConstant;
+import Model.ReactorData;
 import elementos.*;
 import clasificacion.*;
 import java.io.File;
@@ -27,6 +29,11 @@ import javassist.NotFoundException;
 import utilities.ClassMake;
 
 public class Laboratorio {
+    
+    
+ 
+  
+    
 
     public static Class<?>[] getInterfacesOfElementos(Elemento e) {
         Class<?> c1 = e.getClass();
@@ -34,6 +41,23 @@ public class Laboratorio {
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
+        
+        List<ReactorData> data = new ArrayList();
+        ReactorData rm = new ReactorData(0,"O",-2);
+        ReactorData rm2 = new ReactorData(0,"H",1);
+        ReactorData rm3 = new ReactorData(0,"H",1);
+        data.add(rm);
+        data.add(rm2);
+        data.add(rm3);
+        
+        if(utilities.Utilities.moleculaOctecto(data)){
+            try { 
+                System.out.println(utilities.Utilities.generarMolecula(utilities.Utilities.reaccionarElementos(data))); ;
+            } catch (ClassNotFoundException | NoSuchFieldException ex) {
+                Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
 
         System.out.println(Arrays.toString(Filtrar.getValencyByElement("Ag", ElementoConstant.elementos)));
         String e = "H";

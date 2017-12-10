@@ -6,7 +6,10 @@
 package controller;
 
 import Model.DataTableReactorModel;
+import Model.MoleculaContentList;
+import Model.MoleculaListModel;
 import Model.ReactorData;
+import elementos.Elemento;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -32,6 +37,10 @@ import view.ElementGeneratorPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import principal.Laboratorio;
+import utilities.ClassMake;
+import utilities.Molecula;
+import utilities.Utilities;
 import view.ReactorPanel;
 
 public class AppController {
@@ -41,12 +50,17 @@ public class AppController {
     private JButton loadBtn;
     private JButton exportBtn;
     private JButton clearBtn;
+    private JButton reactBtn;
     private JTable table;
     private DataTableReactorModel dataTableReactorModel;
     private ElementGeneratorPanel panelForm;
     private ReactorPanel panelReactor;
     private JComboBox<String> elementComboBox;
+    private JComboBox<String> valencyComboBox;
     private JFileChooser fileChooser;
+    private DataTableReactorModel tableModel;
+    private MoleculaListModel listModelMolecula;
+
 
     public AppController(JPanel panelForm, JPanel panelReactor) {
 
@@ -56,6 +70,7 @@ public class AppController {
         this.quantityField = this.panelForm.getQuantityField();
         this.createBtn = this.panelForm.getCreateBtn();
         this.elementComboBox = this.panelForm.getElementComboBox();
+        this.valencyComboBox = this.panelForm.getValencyComboBox();
 
         // reactor panel
         this.table = this.panelReactor.getTable();
@@ -64,7 +79,10 @@ public class AppController {
         this.exportBtn = this.panelReactor.getExportBtn();
         this.fileChooser = this.panelReactor.getFileChooser();
         this.clearBtn = this.panelReactor.getClearBtn();
-
+        this.reactBtn = this.panelReactor.getReactBtn();
+        this.dataTableReactorModel = this.panelReactor.getTableModel();
+        this.listModelMolecula = this.panelReactor.getMoleculaListModel();
+    
     }
 
     public void initContoller() {
@@ -73,6 +91,31 @@ public class AppController {
         this.loadBtn.addActionListener(e -> loadFileAction());
         this.exportBtn.addActionListener(e -> generaElemento());
         this.clearBtn.addActionListener(e -> clearReactor());
+        this.reactBtn.addActionListener(e -> reaccionar());
+         this.panelReactor.setReactorTableListener(a -> reaccionar());
+    }
+
+    public void reaccionar() {
+        
+        List<ReactorData> rd = dataTableReactorModel.getData();
+        
+        if(utilities.Utilities.moleculaOctecto(rd)){
+            try { 
+               List<Elemento> elementos = Utilities.reaccionarElementos(rd);
+               Molecula m =  Utilities.generarMolecula(elementos);
+               System.out.println("valencia molecula " + m.getValencia());
+               System.out.println("obteniendo elementos de la molecula : " +ClassMake.getArrElementosConstructores(m));
+               MoleculaContentList mcl = new MoleculaContentList();
+               mcl.setTextToDislayM(ClassMake.getArrElementosConstructores(m).toString());
+               mcl.setElementos(m.getElementos());
+               listModelMolecula.addPersona(mcl);
+             //  System.out.println(utilities.Utilities.generarMolecula(utilities.Utilities.reaccionarElementos(data))); ;
+            } catch (ClassNotFoundException | NoSuchFieldException ex) {
+                Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
 
     }
 
@@ -115,11 +158,12 @@ public class AppController {
 
         String element = elementComboBox.getSelectedItem().toString();
         Integer quantity = Integer.parseInt(quantityField.getText());
+        Integer valency = Integer.parseInt(valencyComboBox.getSelectedItem().toString());
 
         int i = 1;
-        
+
         while (i <= quantity) {
-            ReactorData reactorData = new ReactorData(quantity, element, 0);
+            ReactorData reactorData = new ReactorData(quantity, element, valency);
             System.out.println(this.dataTableReactorModel);
             dataTableReactorModel.addRow(reactorData);
             i++;
