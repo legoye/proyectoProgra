@@ -13,15 +13,12 @@ import javax.swing.table.AbstractTableModel;
 
 public class DataTableReactorModel extends AbstractTableModel {
 
- 
     private List<ReactorData> data = new ArrayList();
-
 
     private String[] colNames = {"Elemento", "Valencia"};
 
     public DataTableReactorModel() {
-           
-        
+
     }
 
     @Override
@@ -29,10 +26,10 @@ public class DataTableReactorModel extends AbstractTableModel {
         return colNames[column];
     }
 
-    public void setData(List<ReactorData>data) {
+    public void setData(List<ReactorData> data) {
         this.data = data;
     }
-    
+
     public List<ReactorData> getData() {
         return this.data;
     }
@@ -51,7 +48,7 @@ public class DataTableReactorModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         System.out.println(columnIndex);
         System.out.println(rowIndex);
-        
+
         ReactorData reactorData = data.get(rowIndex);
 
         switch (columnIndex) {
@@ -59,16 +56,24 @@ public class DataTableReactorModel extends AbstractTableModel {
                 return reactorData.getElement();
             case 1:
                 return reactorData.getValencia();
-         
 
         }
         return null;
     }
-    
-    public void addRow(ReactorData rowData)
-    {
+
+    public void addRow(ReactorData rowData) {
         data.add(rowData);
-       // fireTableRowsInserted(data.size() - 1, data.size() - 1);
+        // fireTableRowsInserted(data.size() - 1, data.size() - 1);
+    }
+
+    public void deleteRow(int row) {
+        data.remove(row);
+
+    }
+
+    @Override
+    public String toString() {
+        return "DataTableReactorModel{" + "data=" + data + ", colNames=" + colNames + '}';
     }
     
     

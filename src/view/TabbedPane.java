@@ -21,13 +21,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 
 public class TabbedPane extends JPanel {
 
     JPanel panelForm;
-
+    JPopupMenu jp;
+            
     public TabbedPane() {
         super(new GridLayout(1, 1));
 
@@ -110,11 +113,7 @@ public class TabbedPane extends JPanel {
         ReactorPanel panel = new ReactorPanel();
         List<ReactorData> data = new ArrayList<>();
         panel.setData(data);
-        panel.setReactorTableListener(new ReactorTableListener(){
-			public void rowDeleted(int row){
-				controller.removePerson(row);
-		}
-	});
+       
 
         
         return panel;

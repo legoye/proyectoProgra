@@ -42,6 +42,11 @@ public class ReactorData {
     public void setValencia(int valencia) {
         this.valencia = valencia;
     }
+
+    @Override
+    public String toString() {
+        return "ReactorData{" + "count=" + count + ", element=" + element + ", valencia=" + valencia + '}';
+    }
     
     
     

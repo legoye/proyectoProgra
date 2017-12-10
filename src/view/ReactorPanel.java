@@ -51,14 +51,15 @@ public final class ReactorPanel extends JPanel {
     private JLabel jlabel;
     private MoleculaListModel moleculaListModel;
     private ReactorTableListener reactorTableListener;
+    private JPopupMenu popup;
 
     private JFileChooser fileChooser;
+    private JMenuItem removeItem;
 
     public ReactorPanel() {
         mainLayout = new GridBagLayout();
         mainCons = new GridBagConstraints();
         this.setLayout(mainLayout);
-      
 
         this.exportBtn = new JButton("Exportar");
         this.importBtn = new JButton("Importar");
@@ -66,58 +67,47 @@ public final class ReactorPanel extends JPanel {
         this.clearBtn = new JButton("Vaciar Reactor");
         this.addReactorBtn = new JButton("Agregar al Reactor");
         this.jlabel = new JLabel("Mis Elementos");
-        this.fileChooser = new JFileChooser();        
+        this.fileChooser = new JFileChooser();
         tableModel = new DataTableReactorModel();
         table = new JTable(tableModel);
-        
-        JPopupMenu popup = new JPopupMenu();
-		
-		JMenuItem removeItem = new JMenuItem("Delete row");
-		popup.add(removeItem);
-		
-		removeItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-				if(personTableListener != null){
-					personTableListener.rowDeleted(row);
-					tableModel.fireTableRowsDeleted(row, row);
-				}
-			}
-		});
-        
+
+        popup = new JPopupMenu();
+
+        removeItem = new JMenuItem("Borrar");
+        popup.add(removeItem);
+
         moleculaListModel = new MoleculaListModel();
         booklist = new JList(moleculaListModel);
-        
+
         mainCons.gridy = 1;
         mainCons.gridx = 0;
         mainCons.anchor = GridBagConstraints.BASELINE;
-        mainCons.insets = new Insets(1,0,0,0);
-        this.add(createReactorFormPanel(),mainCons);
+        mainCons.insets = new Insets(1, 0, 0, 0);
+        this.add(createReactorFormPanel(), mainCons);
         mainCons.gridy = 2;
         mainCons.gridx = 1;
         mainCons.anchor = GridBagConstraints.BASELINE;
-        mainCons.insets = new Insets(1,0,1,0);
-        this.add(createReactorTable(),mainCons);
+        mainCons.insets = new Insets(1, 0, 1, 0);
+        this.add(createReactorTable(), mainCons);
         mainCons.gridy = 3;
         mainCons.gridx = 0;
         mainCons.anchor = GridBagConstraints.WEST;
-        mainCons.insets = new Insets(1,0,0,0);
-        this.add(createControlsFormMoleculasPanel(),mainCons);        
+        mainCons.insets = new Insets(1, 0, 0, 0);
+        this.add(createControlsFormMoleculasPanel(), mainCons);
         mainCons.gridy = 4;
         mainCons.gridx = 1;
         mainCons.anchor = GridBagConstraints.BASELINE;
-        mainCons.insets = new Insets(1,0,0,0);
-        this.add(createMoleculasPanel(),mainCons);
-        
+        mainCons.insets = new Insets(1, 0, 0, 0);
+        this.add(createMoleculasPanel(), mainCons);
 
     }
 
     public JPanel createReactorTable() {
-        
+
         reactorPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gc = new GridBagConstraints();        
-        reactorPanel.setLayout(gbl);    
+        GridBagConstraints gc = new GridBagConstraints();
+        reactorPanel.setLayout(gbl);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(400, 200));
@@ -126,7 +116,7 @@ public final class ReactorPanel extends JPanel {
         gc.weighty = 0.5;
         gc.gridy = 1;
         gc.gridx = 0;
-        gc.insets = new Insets(15,0,0,0);
+        gc.insets = new Insets(15, 0, 0, 0);
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.anchor = GridBagConstraints.WEST;
         add(scrollPane, gc);
@@ -146,7 +136,6 @@ public final class ReactorPanel extends JPanel {
 //        gc.gridx = 1;
 //        gc.anchor = GridBagConstraints.WEST;
 //        add(clearBtn, gc);
-
 //        gc.weighty = .2;
 //        gc.gridy = 2;
 //        gc.gridx = 0;
@@ -160,42 +149,38 @@ public final class ReactorPanel extends JPanel {
 //        JScrollPane sp = new JScrollPane(booklist);
 //        booklist.setPreferredSize(new Dimension(200, 200));
 //        add(sp, gc);
+        Border b = BorderFactory.createTitledBorder("Reactor");
 
-        Border b =  BorderFactory.createTitledBorder("Reactor");
-        
         reactorPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         reactorPanel.validate();
         return reactorPanel;
     }
-    
-    private JPanel createControlsFormMoleculasPanel(){
+
+    private JPanel createControlsFormMoleculasPanel() {
         JPanel moleculasPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         moleculasPanel.add(addReactorBtn);
         moleculasPanel.add(importBtn);
         moleculasPanel.add(exportBtn);
         moleculasPanel.setBorder(BorderFactory.createTitledBorder("Mis Moleculas"));
-   
-        
+
         return moleculasPanel;
     }
-    
-    
-    private JPanel createReactorFormPanel(){
+
+    private JPanel createReactorFormPanel() {
         JPanel moleculasPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         moleculasPanel.add(reactBtn);
         moleculasPanel.add(clearBtn);
         moleculasPanel.setBorder(BorderFactory.createTitledBorder("Reactor"));
-   
-        
+
         return moleculasPanel;
     }
-    
-    private  JPanel createMoleculasPanel(){
-    
+
+    private JPanel createMoleculasPanel() {
+
         moleculasPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        GridBagConstraints gc = new GridBagConstraints();        
-        moleculasPanel.setLayout(gbl);       
+        GridBagConstraints gc = new GridBagConstraints();
+        moleculasPanel.setLayout(gbl);
         JScrollPane sp = new JScrollPane(booklist);
         booklist.setPreferredSize(new Dimension(200, 200));
 
@@ -205,11 +190,9 @@ public final class ReactorPanel extends JPanel {
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.WEST;
         add(sp, gc);
-        
-     
+
         moleculasPanel.setBorder(BorderFactory.createTitledBorder("Mis Moleculas"));
-        
-    
+
         return moleculasPanel;
     }
 
@@ -272,8 +255,27 @@ public final class ReactorPanel extends JPanel {
         return moleculaListModel;
     }
 
-    public void setReactorTableListener(ReactorTableListener listener){
-		this.reactorTableListener = listener;
+    public void setReactorTableListener(ReactorTableListener listener) {
+        System.out.println("definido el panel reactor listener");
+        this.reactorTableListener = listener;
     }
-    
+
+    public JPopupMenu getPopup() {
+        return popup;
+    }
+
+    public JMenuItem getRemoveItem() {
+        return removeItem;
+    }
+
+    public void setRemoveItem(JMenuItem removeItem) {
+        this.removeItem = removeItem;
+    }
+
+    public ReactorTableListener getReactorTableListener() {
+        
+        return reactorTableListener;
+    }
+
+        
 }

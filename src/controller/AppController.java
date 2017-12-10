@@ -9,11 +9,14 @@ import Model.DataTableReactorModel;
 import Model.MoleculaContentList;
 import Model.MoleculaListModel;
 import Model.ReactorData;
+import Model.ReactorTableListener;
 import elementos.Elemento;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,12 +33,14 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import utilities.Validations;
 import view.ElementGeneratorPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import principal.Laboratorio;
 import utilities.ClassMake;
@@ -58,9 +63,11 @@ public class AppController {
     private JComboBox<String> elementComboBox;
     private JComboBox<String> valencyComboBox;
     private JFileChooser fileChooser;
-    private DataTableReactorModel tableModel;
+    
     private MoleculaListModel listModelMolecula;
-
+    private JMenuItem removeItem;
+    private ReactorTableListener reactorTableListener;
+    private JPopupMenu popup;
 
     public AppController(JPanel panelForm, JPanel panelReactor) {
 
@@ -82,7 +89,11 @@ public class AppController {
         this.reactBtn = this.panelReactor.getReactBtn();
         this.dataTableReactorModel = this.panelReactor.getTableModel();
         this.listModelMolecula = this.panelReactor.getMoleculaListModel();
-    
+        this.removeItem = this.panelReactor.getRemoveItem();
+        
+        this.popup = this.panelReactor.getPopup();
+       
+
     }
 
     public void initContoller() {
@@ -92,30 +103,68 @@ public class AppController {
         this.exportBtn.addActionListener(e -> generaElemento());
         this.clearBtn.addActionListener(e -> clearReactor());
         this.reactBtn.addActionListener(e -> reaccionar());
-         this.panelReactor.setReactorTableListener(a -> reaccionar());
+        this.panelReactor.setReactorTableListener( new ReactorTableListener() {
+            
+            @Override
+            public void rowDeleted(int row) {
+                System.out.println("definiendo row delete");
+                deleteRowTableReactor(row);
+            }
+        });
+        this.removeItem.addActionListener(e -> leftClickDelete());
+        this.table.addMouseListener(new MouseAdapter() {
+
+            public void mousePressed(MouseEvent e) {
+                int row = table.rowAtPoint(e.getPoint());
+                table.getSelectionModel().setSelectionInterval(row, row);
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    popup.show(table, e.getX(), e.getY());
+                }
+            }
+
+        });
+    }
+
+    public void leftClickDelete() {
+        System.out.println("click delete event");
+        this.reactorTableListener = this.panelReactor.getReactorTableListener();
+        int row = table.getSelectedRow();
+        if (reactorTableListener != null) {
+            reactorTableListener.rowDeleted(row);
+            dataTableReactorModel.fireTableRowsDeleted(row, row);
+        }
+    }
+
+    public void deleteRowTableReactor(int row) {
+        System.out.println("entra a borrar tabla");
+        List<ReactorData> rd = dataTableReactorModel.getData();
+        System.out.println(rd);
+        rd.remove(row);
+        System.out.println(rd);
+        panelReactor.refresh();
+
     }
 
     public void reaccionar() {
-        
+
         List<ReactorData> rd = dataTableReactorModel.getData();
-        
-        if(utilities.Utilities.moleculaOctecto(rd)){
-            try { 
-               List<Elemento> elementos = Utilities.reaccionarElementos(rd);
-               Molecula m =  Utilities.generarMolecula(elementos);
-               System.out.println("valencia molecula " + m.getValencia());
-               System.out.println("obteniendo elementos de la molecula : " +ClassMake.getArrElementosConstructores(m));
-               MoleculaContentList mcl = new MoleculaContentList();
-               mcl.setTextToDislayM(ClassMake.getArrElementosConstructores(m).toString());
-               mcl.setElementos(m.getElementos());
-               listModelMolecula.addPersona(mcl);
-             //  System.out.println(utilities.Utilities.generarMolecula(utilities.Utilities.reaccionarElementos(data))); ;
+
+        if (utilities.Utilities.moleculaOctecto(rd)) {
+            try {
+                List<Elemento> elementos = Utilities.reaccionarElementos(rd);
+                Molecula m = Utilities.generarMolecula(elementos);
+                System.out.println("valencia molecula " + m.getValencia());
+                System.out.println("obteniendo elementos de la molecula : " + ClassMake.getArrElementosConstructores(m));
+                MoleculaContentList mcl = new MoleculaContentList();
+                mcl.setTextToDislayM(ClassMake.getArrElementosConstructores(m).toString());
+                mcl.setElementos(m.getElementos());
+                listModelMolecula.addPersona(mcl);
+                //  System.out.println(utilities.Utilities.generarMolecula(utilities.Utilities.reaccionarElementos(data))); ;
             } catch (ClassNotFoundException | NoSuchFieldException ex) {
                 Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-        
 
     }
 
