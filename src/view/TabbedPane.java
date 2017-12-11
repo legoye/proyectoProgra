@@ -47,10 +47,10 @@ public class TabbedPane extends JPanel {
                 "Mis moléculas y elementos");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 
-        JComponent panel3 = MakeConfigurationContent();
-        tabbedPane.addTab("Configuración reactor", icon, panel3,
-                "Still does nothing");
-        tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
+//        JComponent panel3 = MakeConfigurationContent();
+//        tabbedPane.addTab("Configuración reactor", icon, panel3,
+//                "Still does nothing");
+//        tabbedPane.setMnemonicAt(2, KeyEvent.VK_3);
 
         //Add the tabbed pane to this panel.
         add(tabbedPane);
@@ -73,24 +73,6 @@ public class TabbedPane extends JPanel {
 
     protected JComponent MakeElementsContent() {
         
-//        Container contentPane = this.;
-//        contentPane.setLayout(new GridLayout(0, 1))
-//
-//        Box horizontalBox;
-//        horizontalBox = Box.createHorizontalBox();
-//
-//        horizontalBox.add(Box.createVerticalStrut(0));
-//        panelForm = new ElementGeneratorPanel();
-//        horizontalBox.add(panelForm);
-//
-//        JPanel panelG = new JPanel(new BorderLayout());
-//        panelG.add(horizontalBox);
-//
-//        horizontalBox = Box.createHorizontalBox();
-//        panel = new JPanel(new BorderLayout());
-//        panel.add(horizontalBox);
-//        panel.setBorder(BorderFactory.createTitledBorder("2 Middle Struts"));
-//        contentPane.add(panel);
 
         JPanel panel = new ElementGeneratorPanel();
 

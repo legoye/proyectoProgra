@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -54,7 +56,7 @@ public class ClassMake {
 
         cc.writeFile();
         System.out.println(ruta);
-        cc.toBytecode(new DataOutputStream(new FileOutputStream(ruta+"/src/"+ nombreClase + ".class")));
+        cc.toBytecode(new DataOutputStream(new FileOutputStream(ruta + "/src/" + nombreClase + ".class")));
         cc.writeFile();
     }
 
@@ -67,13 +69,50 @@ public class ClassMake {
             if (m.getElementos().get(i) instanceof elementos.Elemento) {
                 String elemento = m.getElementos().get(i).getClass().getSimpleName();
                 String valencia = ((Elemento) m.getElementos().get(i)).getValencia() + "";
-                //System.out.println("elemento: " + elemento);
-                //System.out.println("su valencia: " + valencia);
-
                 arrToReturn.add(elemento + "(" + valencia + ")");
             }
         }
         return arrToReturn;
+    }
+
+    public static String makeMoleculasName(Molecula m) {
+
+        String elements[] = new String[m.getElementos().size()];
+        String name = "";
+        List<String> elementos = new ArrayList<>();
+
+        for (int i = 0; i < m.getElementos().size(); i++) {
+
+            if (m.getElementos().get(i) instanceof elementos.Elemento) {
+                elements[i] = m.getElementos().get(i).getClass().getSimpleName();
+                elementos.add(m.getElementos().get(i).getClass().getSimpleName());
+            }
+        }
+       
+        Collections.sort(elementos, new Comparator<String>() {
+            public int compare(String d1, String d2) {
+                return d1.compareTo(d2);
+            }
+        });
+       
+        for (int i = 0; i < elementos.size(); i++) {
+            String aux = "";
+            String auxName = "";
+            Integer cont = 2;
+            name = name + elementos.get(i);
+
+            for (int j = i + 1; j < elements.length; j++) {
+                if (elementos.get(i).equals(elementos.get(j))) {
+                    name = name + cont.toString();
+                    cont++;
+                    i = j;
+                }
+            }
+
+        }
+        
+        System.out.println("ordenados " + elementos);        
+        return name;         
     }
 
 }

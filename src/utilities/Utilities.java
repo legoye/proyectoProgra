@@ -53,7 +53,6 @@ public final class Utilities {
             String e = d.getElement();
             int valencia = d.getValencia();
             Class clas = null;
-           
 
             try {
                 clas = Class.forName("elementos." + e);
@@ -72,14 +71,19 @@ public final class Utilities {
             try {
                 Field f = Class.forName("elementos." + e).getSuperclass().getDeclaredField("valencias");
                 f.setAccessible(true);
-                f.set(newInstance,Filtrar.getValencyByElement(e, ElementoConstant.elementos));
+                f.set(newInstance, Filtrar.getValencyByElement(e, ElementoConstant.elementos));
 
             } catch (SecurityException | IllegalAccessException x) {
                 x.printStackTrace();
             }
 
-            while (newInstance.getValencia() != valencia) {
-                newInstance.setValencia();
+            if (valencia == 999) {
+                    newInstance.setValencia();
+
+            } else {
+                while (newInstance.getValencia() != valencia) {
+                    newInstance.setValencia();
+                }
             }
 
             elementos.add(newInstance);

@@ -15,24 +15,56 @@ import java.util.Map;
 
 public class Filtrar {
 
-    Object[][] elements = ElementoConstant.elementos;
+    public Object[][] elements = ElementoConstant.elementos;
+    public List<String> elementsFound;
 
-    public Object[][] getElementsByFilters(Object[][] elements, String family, String subFamily, String state) {
+    public static void getSubfamiliesByType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<String> getElementsByFilters(Object[][] elements, String family, String subFamily, String state) {
+        elementsFound = new ArrayList();
 
         for (int i = 0; i < elements.length; i++) {
+            boolean found = false;
+
             for (int j = 0; j < elements[i].length; j++) {
-                System.out.println(elements[i][j]);
-                if (!family.equals("todos") && j == 1) {
-                    if (!family.equals(elements[i][j])) {
-                        getElementsByFilters(removeRowFromdArray(elements, i), family, subFamily, state);
+
+                if (!family.equals("Todos") && j == 1) {
+                    if (family.equals(elements[i][j])) {
+                        found = true;
+
+                    } else {
+                        break;
+                    }
+
+                }
+                if (!subFamily.equals("Todos") && j == 2) {
+                    if (!subFamily.equals(elements[i][j])) {
+                        found = true;
+
+                    } else {
+                        break;
+                    }
+
+                }
+                if (!state.equals("Todos") && j == 3) {
+                    if (!state.equals(elements[i][j])) {
+                        found = true;
 
                     }
 
                 }
+
+            }
+
+            if (true) {
+                elementsFound.add((String) elements[i][0]);
+
             }
         }
 
-        return elements;
+        return elementsFound;
 
     }
 
@@ -55,15 +87,15 @@ public class Filtrar {
 
     public static int[] getValencyByElement(String element, Object[][] elements) {
 
-        int valency [] = null ;
+        int valency[] = null;
 
         for (int i = 0; i < elements.length; i++) {
             for (int j = 0; j < elements[i].length; j++) {
 
                 if (j == 0) {
-                    if(elements[i][j].equals(element)){
+                    if (elements[i][j].equals(element)) {
                         valency = (int[]) elements[i][4];
-                        
+
                     }
                 }
 
@@ -72,11 +104,162 @@ public class Filtrar {
 
         return valency;
     }
+    
+    public static Object[] getElementsByFamily(String element, Object[][] elements) {
 
-    public Object[][] removeRowFromdArray(Object[][] array, int row) {
+        List<Object> elementsL = new ArrayList();
+
+        for (int i = 0; i < elements.length; i++) {
+            for (int j = 0; j < elements[i].length; j++) {
+
+                if (j == 1) {
+                    if (elements[i][j].equals(element)) {
+                        elementsL.add((String)elements[i][0]);
+
+                    }
+                }
+
+            }
+        }
+
+        return elementsL.toArray();
+        
+    }
+    
+     public static Object[] getElementsBySubFamily(String element, Object[][] elements) {
+
+        List<Object> elementsL = new ArrayList();
+
+        for (int i = 0; i < elements.length; i++) {
+            for (int j = 0; j < elements[i].length; j++) {
+
+                if (j == 2) {
+                    if (elements[i][j].equals(element)) {
+                        elementsL.add((String)elements[i][0]);
+
+                    }
+                }
+
+            }
+        }
+
+        return elementsL.toArray();
+        
+    }
+    
+
+    
+    public static Object[] getElementsByState(String element, Object[][] elements) {
+
+        List<Object> elementsL = new ArrayList();
+
+        for (int i = 0; i < elements.length; i++) {
+            for (int j = 0; j < elements[i].length; j++) {
+
+                if (j == 3) {
+                    if (elements[i][j].equals(element)) {
+                        elementsL.add((String)elements[i][0]);
+
+                    }
+                }
+
+            }
+        }
+
+        return elementsL.toArray();
+        
+    }
+    
+
+    public List<String> getElementsByAllFilters(Object[][] elements, String family, String subFamily, String state) {
+        elementsFound = new ArrayList();
+
+        Object[][] aux = {};
+        Object[] aux2 = {};
+
+        if (!family.equals("Todos")) {
+            for (int i = 0; i < elements.length; i++) {
+                for (int j = 0; j < elements[i].length; j++) {
+                    System.out.println(elements[i][j]);
+                    if (j == 1) {
+                        elementsFound.add((String) elements[i][j]);
+                        
+
+                    }
+
+                }
+            }
+
+        }
+        
+        if (!subFamily.equals("Todos")) {
+            for (int i = 0; i < elements.length; i++) {
+                for (int j = 0; j < elements[i].length; j++) {
+                    System.out.println(elements[i][j]);
+                    if (j == 2) {
+                        elementsFound.add((String) elements[i][j]);
+                    }
+
+                }
+            }
+
+        }
+        
+        if (!state.equals("Todos")) {
+            for (int i = 0; i < elements.length; i++) {
+                for (int j = 0; j < elements[i].length; j++) {
+                    System.out.println(elements[i][j]);
+                    if (j == 3) {
+                        elementsFound.add((String) elements[i][j]);
+                    }
+
+                }
+            }
+
+        }
+
+        return elementsFound;
+    }
+
+    public Object[] removeRowFromdArray(Object[] array, int row) {
         List list = Arrays.asList(array);
         list.remove(row);
         return (Object[][]) list.toArray(new Object[][]{});
+    }
+
+    public static String[] getSubfamiliesByType(String expression) {
+
+        switch (expression) {
+            case "Chalcogeno":
+                // Statements
+                return null;
+
+            case "Halogeno":
+
+                return null;
+
+            case "Metal":
+                String arreglo3[] = {"Lantanidos", "Actinidos", "Alcalinoterreos", "Alcalinos", "DeTransicion", "DelBloqueP"};
+                return arreglo3;
+
+            case "Metaloide":
+
+                return null;
+
+            case "No Metal":
+
+                String arreglo5[] = {"Otros", "Gases Nobles"};
+                return arreglo5;
+
+            case "Pnictogeno":
+
+                return null;
+
+            default:
+                return null;
+
+        }
+
     }
 
 }

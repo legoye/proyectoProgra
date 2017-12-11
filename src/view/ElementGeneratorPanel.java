@@ -22,6 +22,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,12 +43,21 @@ public class ElementGeneratorPanel extends JPanel {
     private JComboBox<String> familyComboBox;
     private JComboBox<String> subfamilyComboBox;
     private JComboBox<String> elementComboBox;
+    private DefaultComboBoxModel<String> familyModel = new DefaultComboBoxModel<String>();
+    private DefaultComboBoxModel<String> subFamilyModel = new DefaultComboBoxModel<String>();
+    private DefaultComboBoxModel<String> estateModel = new DefaultComboBoxModel<String>();
+    private DefaultComboBoxModel<String> valencyModel = new DefaultComboBoxModel<String>();
+    DefaultComboBoxModel<String> elementModel ;
+    
+    
     private JTextField quantityField;
     private JButton createBtn;
     private JButton serialize;
     private AppController elementGeneratorController;
     private GridBagLayout mainLayout;
     private GridBagConstraints mainCons; 
+    private JFileChooser fileChooserSerialize;
+    
     
 
     public ElementGeneratorPanel() {
@@ -61,6 +71,7 @@ public class ElementGeneratorPanel extends JPanel {
         this.quantityField = new JTextField(10);
         this.createBtn = new JButton("Enviar al reactor");
         this.serialize = new JButton("Serializar");
+        this.fileChooserSerialize = new JFileChooser();
         mainLayout = new GridBagLayout();
         mainCons = new GridBagConstraints();
         this.setLayout(mainLayout);
@@ -90,8 +101,9 @@ public class ElementGeneratorPanel extends JPanel {
         stateComboBox = new JComboBox<String>();
         DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
         empModel.addElement("Todos");
-        empModel.addElement("Metal Largo 2");
-        empModel.addElement("Metal 3");
+        empModel.addElement("Solido");
+        empModel.addElement("Liquido");
+        empModel.addElement("Gaseoso");
         stateComboBox.setModel(empModel);
         stateComboBox.setSelectedIndex(0);
 
@@ -99,52 +111,54 @@ public class ElementGeneratorPanel extends JPanel {
 
     private void createFamilyComboBox() {
         familyComboBox = new JComboBox<String>();
-        DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
-        empModel.addElement("Todos");
-        empModel.addElement("Metal Largo 2");
-        empModel.addElement("Metal 3");
-        familyComboBox.setModel(empModel);
+        familyModel = new DefaultComboBoxModel<String>();
+        familyModel.addElement("Todos");
+        familyModel.addElement("Chalcogeno");
+        familyModel.addElement("Halogeno");
+        familyModel.addElement("Metal");
+        familyModel.addElement("Metaloide");
+        familyModel.addElement("No Metal");
+        familyModel.addElement("Pnictogeno");
+        
+        familyComboBox.setModel(familyModel);
         familyComboBox.setSelectedIndex(0);
 
     }
 
     private void createSubFamilyComboBox() {
         subfamilyComboBox = new JComboBox<String>();
-        DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
-        empModel.addElement("Todos");
-        empModel.addElement("Metal Largo 2");
-        empModel.addElement("Metal 3");
-        subfamilyComboBox.setModel(empModel);
+        subFamilyModel = new DefaultComboBoxModel<String>();
+        subFamilyModel.addElement("Todos");
+      
+        subfamilyComboBox.setModel(subFamilyModel);
         subfamilyComboBox.setSelectedIndex(0);
 
     }
 
     private void createValencyComboBox() {
         valencyComboBox = new JComboBox<String>();
-        DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
-        empModel.addElement("Aleatoria");
-        empModel.addElement("+1");
-        empModel.addElement("+2");
-        empModel.addElement("-1");
-        empModel.addElement("-2");
-        valencyComboBox.setModel(empModel);
+        valencyModel = new DefaultComboBoxModel<String>();
+        valencyModel.addElement("Aleatoria");
+   
+        valencyComboBox.setModel(valencyModel);
+        
         valencyComboBox.setSelectedIndex(0);
 
     }
 
     private void createElementComboBox() {
         elementComboBox = new JComboBox<String>();
-        DefaultComboBoxModel<String> empModel = new DefaultComboBoxModel<String>();
+        elementModel = new DefaultComboBoxModel<String>();
 
         Object[][] elementos = ElementoConstant.elementos;
         Object[] elementsByFilters = Filtrar.getElementsByFilters(elementos);
 
         for (int i = 0; i < elementsByFilters.length; i++) {
 
-            empModel.addElement((String) elementsByFilters[i]);
+            elementModel.addElement((String) elementsByFilters[i]);
         }
 
-        elementComboBox.setModel(empModel);
+        elementComboBox.setModel(elementModel);
         elementComboBox.setSelectedIndex(0);
 
     }
@@ -358,6 +372,34 @@ public class ElementGeneratorPanel extends JPanel {
     public JComboBox<String> getValencyComboBox() {
         return valencyComboBox;
     }
+
+    public JComboBox<String> getStateComboBox() {
+        return stateComboBox;
+    }
+
+    public void setStateComboBox(JComboBox<String> stateComboBox) {
+        this.stateComboBox = stateComboBox;
+    }
+
+    public JComboBox<String> getFamilyComboBox() {
+        return familyComboBox;
+    }
+
+    public void setFamilyComboBox(JComboBox<String> familyComboBox) {
+        this.familyComboBox = familyComboBox;
+    }
+
+    public JComboBox<String> getSubfamilyComboBox() {
+        return subfamilyComboBox;
+    }
+
+    public void setSubfamilyComboBox(JComboBox<String> subfamilyComboBox) {
+        this.subfamilyComboBox = subfamilyComboBox;
+    }
+
+    public DefaultComboBoxModel<String> getElementModel() {
+        return elementModel;
+    }
     
     
     
@@ -381,5 +423,124 @@ public class ElementGeneratorPanel extends JPanel {
     public void setCreateBtn(JButton createBtn) {
         this.createBtn = createBtn;
     }
+
+    public JButton getSerialize() {
+        return serialize;
+    }
+
+    public void setFileChooserSerialize(JFileChooser fileChooserSerialize) {
+        this.fileChooserSerialize = fileChooserSerialize;
+    }
+
+    public JFileChooser getFileChooserSerialize() {
+        return fileChooserSerialize;
+    }
+
+    public JLabel getStateLabel() {
+        return stateLabel;
+    }
+
+    public void setStateLabel(JLabel stateLabel) {
+        this.stateLabel = stateLabel;
+    }
+
+    public JLabel getFamilyLabel() {
+        return familyLabel;
+    }
+
+    public void setFamilyLabel(JLabel familyLabel) {
+        this.familyLabel = familyLabel;
+    }
+
+    public JLabel getSubfamilyLabel() {
+        return subfamilyLabel;
+    }
+
+    public void setSubfamilyLabel(JLabel subfamilyLabel) {
+        this.subfamilyLabel = subfamilyLabel;
+    }
+
+    public JLabel getValencyLabel() {
+        return valencyLabel;
+    }
+
+    public void setValencyLabel(JLabel valencyLabel) {
+        this.valencyLabel = valencyLabel;
+    }
+
+    public JLabel getQuantityLabel() {
+        return quantityLabel;
+    }
+
+    public void setQuantityLabel(JLabel quantityLabel) {
+        this.quantityLabel = quantityLabel;
+    }
+
+    public JLabel getElementLabel() {
+        return elementLabel;
+    }
+
+    public void setElementLabel(JLabel elementLabel) {
+        this.elementLabel = elementLabel;
+    }
+
+    public DefaultComboBoxModel<String> getFamilyModel() {
+        return familyModel;
+    }
+
+    public void setFamilyModel(DefaultComboBoxModel<String> familyModel) {
+        this.familyModel = familyModel;
+    }
+
+    public DefaultComboBoxModel<String> getSubFamilyModel() {
+        return subFamilyModel;
+    }
+
+    public void setSubFamilyModel(DefaultComboBoxModel<String> subFamilyModel) {
+        this.subFamilyModel = subFamilyModel;
+    }
+
+    public DefaultComboBoxModel<String> getEstateModel() {
+        return estateModel;
+    }
+
+    public void setEstateModel(DefaultComboBoxModel<String> estateModel) {
+        this.estateModel = estateModel;
+    }
+
+    public DefaultComboBoxModel<String> getValencyModel() {
+        return valencyModel;
+    }
+
+    public void setValencyModel(DefaultComboBoxModel<String> valencyModel) {
+        this.valencyModel = valencyModel;
+    }
+
+    public AppController getElementGeneratorController() {
+        return elementGeneratorController;
+    }
+
+    public void setElementGeneratorController(AppController elementGeneratorController) {
+        this.elementGeneratorController = elementGeneratorController;
+    }
+
+    public GridBagLayout getMainLayout() {
+        return mainLayout;
+    }
+
+    public void setMainLayout(GridBagLayout mainLayout) {
+        this.mainLayout = mainLayout;
+    }
+
+    public GridBagConstraints getMainCons() {
+        return mainCons;
+    }
+
+    public void setMainCons(GridBagConstraints mainCons) {
+        this.mainCons = mainCons;
+    }
+    
+    
+    
 
 }

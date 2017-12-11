@@ -30,11 +30,7 @@ import utilities.ClassMake;
 
 public class Laboratorio {
     
-    
- 
-  
-    
-
+   
     public static Class<?>[] getInterfacesOfElementos(Elemento e) {
         Class<?> c1 = e.getClass();
         return c1.getInterfaces();
@@ -125,6 +121,7 @@ public class Laboratorio {
         m.setValencia(valenciaM);
         System.out.println("valencia molecula " + m.getValencia());
         System.out.println("obteniendo elementos de la molecula : " +ClassMake.getArrElementosConstructores(m));
+        System.out.println("obteniendo nombre de la molecula : " +ClassMake.makeMoleculasName(m));
         
         
         // crea la clase de la molecula

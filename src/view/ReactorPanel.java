@@ -46,14 +46,18 @@ public final class ReactorPanel extends JPanel {
     private JButton exportBtn;
     private JButton reactBtn;
     private JButton clearBtn;
+    private JButton loadSerializeBtn;
     private JButton addReactorBtn;
+    
     private JList booklist;
     private JLabel jlabel;
+    private JLabel jlabelIndicacion;
     private MoleculaListModel moleculaListModel;
     private ReactorTableListener reactorTableListener;
     private JPopupMenu popup;
 
     private JFileChooser fileChooser;
+    private JFileChooser fileChooserSerializeElement;
     private JMenuItem removeItem;
 
     public ReactorPanel() {
@@ -65,9 +69,12 @@ public final class ReactorPanel extends JPanel {
         this.importBtn = new JButton("Importar");
         this.reactBtn = new JButton("Raccionar");
         this.clearBtn = new JButton("Vaciar Reactor");
+        this.loadSerializeBtn = new JButton("Cargar Elementos Serializados");
         this.addReactorBtn = new JButton("Agregar al Reactor");
         this.jlabel = new JLabel("Mis Elementos");
+        this.jlabelIndicacion = new JLabel("* Al reactor solo se deberán agrgar los elementos a reaccionar");
         this.fileChooser = new JFileChooser();
+        this.fileChooserSerializeElement = new JFileChooser();
         tableModel = new DataTableReactorModel();
         table = new JTable(tableModel);
 
@@ -170,6 +177,8 @@ public final class ReactorPanel extends JPanel {
         JPanel moleculasPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         moleculasPanel.add(reactBtn);
         moleculasPanel.add(clearBtn);
+        moleculasPanel.add(loadSerializeBtn);
+        
         moleculasPanel.setBorder(BorderFactory.createTitledBorder("Reactor"));
 
         return moleculasPanel;
@@ -190,6 +199,11 @@ public final class ReactorPanel extends JPanel {
         gc.gridx = 0;
         gc.anchor = GridBagConstraints.WEST;
         add(sp, gc);
+        
+        gc.gridy = 5;
+        gc.gridx = 0;
+        gc.anchor = GridBagConstraints.WEST;
+        add(jlabelIndicacion, gc);
 
         moleculasPanel.setBorder(BorderFactory.createTitledBorder("Mis Moleculas"));
 
@@ -275,6 +289,18 @@ public final class ReactorPanel extends JPanel {
     public ReactorTableListener getReactorTableListener() {
         
         return reactorTableListener;
+    }
+
+    public JFileChooser getFileChooserSerializeElement() {
+        return fileChooserSerializeElement;
+    }
+
+    public void setFileChooserSerializeElement(JFileChooser fileChooserSerializeElement) {
+        this.fileChooserSerializeElement = fileChooserSerializeElement;
+    }
+
+    public JButton getLoadSerializeBtn() {
+        return loadSerializeBtn;
     }
 
         

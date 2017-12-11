@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import Model.ElementoConstant;
 import elementos.Elemento;
 import elementos.Li;
 import elementos.O;
@@ -14,23 +15,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import principal.Laboratorio;
 
 public class Serializacion {
 
-    public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
 
-        String direccion = "C:\\io\\";
-        Elemento o = new Li();
-        serializarElemento(o, direccion + o.getClass().getName() + ".out");
-        
-        Elemento io = obtenerElemento(direccion + o.getClass().getName() + ".out");
-        Class<?> c1 = io.getClass();
-        for(Class<?> i: c1.getInterfaces())
-            System.out.println(i);
-        
-        System.out.println(c1.getName()); 
-
-    }
 
     public static Elemento obtenerElemento(String direccion) throws FileNotFoundException, IOException, ClassNotFoundException {
 
@@ -51,6 +43,46 @@ public class Serializacion {
         oos.close();
         System.out.println("Objeto serializado");
 
+    }
+    
+    public static Elemento generaIntanciaElemento(String e , int valencia) throws ClassNotFoundException, NoSuchFieldException{
+    
+            Elemento newInstance = null;
+            Class clas = null;
+
+            try {
+                clas = Class.forName("elementos." + e);
+                System.out.println(clas);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                newInstance = (Elemento) clas.newInstance();
+                System.out.println("instancia:" + newInstance);
+            } catch (InstantiationException | IllegalAccessException ex) {
+                Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                Field f = Class.forName("elementos." + e).getSuperclass().getDeclaredField("valencias");
+                f.setAccessible(true);
+                f.set(newInstance, Filtrar.getValencyByElement(e, ElementoConstant.elementos));
+
+            } catch (SecurityException | IllegalAccessException x) {
+                x.printStackTrace();
+            }
+
+            if (valencia == 999) {
+                    newInstance.setValencia();
+
+            } else {
+                while (newInstance.getValencia() != valencia) {
+                    newInstance.setValencia();
+                }
+            }
+    
+            return newInstance;
     }
 
 }
