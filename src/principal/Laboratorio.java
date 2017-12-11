@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import utilities.Filtrar;
-import utilities.Molecula;
+import Model.Molecula;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -126,11 +126,11 @@ public class Laboratorio {
         
         // crea la clase de la molecula
         
-        try {
-            ClassMake.makeClass("test", m);
-        } catch (NotFoundException | CannotCompileException ex) {
-            Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            ClassMake.makeClass("test", m);
+//        } catch (NotFoundException | CannotCompileException ex) {
+//            Logger.getLogger(Laboratorio.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         // leé la clase creada
 

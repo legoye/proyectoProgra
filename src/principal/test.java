@@ -8,7 +8,7 @@ package principal;
 
 import elementos.O;
 import java.util.List;
-import utilities.Molecula;
+import Model.Molecula;
 
 public class test
   extends Molecula

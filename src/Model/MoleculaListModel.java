@@ -32,7 +32,7 @@ public class MoleculaListModel extends AbstractListModel{
         lista.remove(index0);
         this.fireIntervalRemoved(index0, getSize(), getSize()+1);
     }
-    public MoleculaContentList getPersona(int index){
+    public MoleculaContentList getMolecula(int index){
         return lista.get(index);
     }
 }

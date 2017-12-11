@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MoleculaContentList {
     
+    private Molecula molecula;
     private List<Elemento> elementos;
     private String textToDislayM;
 
@@ -34,6 +35,16 @@ public class MoleculaContentList {
     public void setTextToDislayM(String textToDislayM) {
         this.textToDislayM = textToDislayM;
     }
+
+    public Molecula getMolecula() {
+        return molecula;
+    }
+
+    public void setMolecula(Molecula molecula) {
+        this.molecula = molecula;
+    }
+    
+    
 
     @Override
     public String toString() {

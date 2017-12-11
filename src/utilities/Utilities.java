@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import Model.Molecula;
 import Model.DataTableReactorModel;
 import Model.ElementoConstant;
 import Model.ReactorData;

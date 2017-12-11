@@ -65,7 +65,7 @@ public final class ReactorPanel extends JPanel {
         mainCons = new GridBagConstraints();
         this.setLayout(mainLayout);
 
-        this.exportBtn = new JButton("Exportar");
+        this.exportBtn = new JButton("Exportar .class");
         this.importBtn = new JButton("Importar");
         this.reactBtn = new JButton("Raccionar");
         this.clearBtn = new JButton("Vaciar Reactor");
@@ -128,34 +128,6 @@ public final class ReactorPanel extends JPanel {
         gc.anchor = GridBagConstraints.WEST;
         add(scrollPane, gc);
 
-//        gc.gridy = 0;
-//        gc.gridx = 2;
-//        gc.anchor = GridBagConstraints.WEST;
-//        add(importBtn, gc);
-//
-//
-//        gc.gridy = 0;
-//        gc.gridx = 0;
-//        gc.anchor = GridBagConstraints.WEST;;
-//        add(reactBtn, gc);
-//
-//        gc.gridy = 0;
-//        gc.gridx = 1;
-//        gc.anchor = GridBagConstraints.WEST;
-//        add(clearBtn, gc);
-//        gc.weighty = .2;
-//        gc.gridy = 2;
-//        gc.gridx = 0;
-//        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-//        add(jlabel, gc);
-//
-//        gc.weighty = .6;
-//        gc.gridy = 3;
-//        gc.gridx = 0;
-//        gc.anchor = GridBagConstraints.FIRST_LINE_START;
-//        JScrollPane sp = new JScrollPane(booklist);
-//        booklist.setPreferredSize(new Dimension(200, 200));
-//        add(sp, gc);
         Border b = BorderFactory.createTitledBorder("Reactor");
 
         reactorPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -221,9 +193,7 @@ public final class ReactorPanel extends JPanel {
     public void refresh() {
         tableModel.fireTableDataChanged();
     }
-//	public void setPersonTableListener(PersonTableListener listener){
-//		this.personTableListener = listener;
-//	}
+
 
     public JTable getTable() {
         return table;
@@ -303,5 +273,13 @@ public final class ReactorPanel extends JPanel {
         return loadSerializeBtn;
     }
 
-        
+    public JList getBooklist() {
+        return booklist;
+    }
+
+    public void setBooklist(JList booklist) {
+        this.booklist = booklist;
+    }
+
+            
 }

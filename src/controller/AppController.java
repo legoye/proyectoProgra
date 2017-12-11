@@ -33,11 +33,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -47,10 +50,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import principal.Laboratorio;
 import utilities.ClassMake;
 import utilities.Filtrar;
-import utilities.Molecula;
+import Model.Molecula;
 import utilities.Serializacion;
 import utilities.Utilities;
 import view.ReactorPanel;
@@ -64,8 +69,10 @@ public class AppController {
     private JButton clearBtn;
     private JButton reactBtn;
     private JTable table;
+    private JList listaMoleculas;
     private DataTableReactorModel dataTableReactorModel;
     private ElementGeneratorPanel panelForm;
+    private MoleculaListModel moleculasListModel;
     private ReactorPanel panelReactor;
     private JComboBox<String> elementComboBox;
     private JComboBox<String> familyComboBox;
@@ -119,6 +126,8 @@ public class AppController {
         this.popup = this.panelReactor.getPopup();
         this.fileChooserSerialize = this.panelReactor.getFileChooserSerializeElement();
         this.loadSerializeE = this.panelReactor.getLoadSerializeBtn();
+        this.listaMoleculas = this.panelReactor.getBooklist();
+        this.moleculasListModel = this.panelReactor.getMoleculaListModel();
 
     }
 
@@ -160,6 +169,16 @@ public class AppController {
             }
         });
 
+        this.listaMoleculas.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if (!arg0.getValueIsAdjusting()) {
+                    //   MoleculaContentList moleculaContentList = (MoleculaContentList) listaMoleculas.getSelectedValue();
+                }
+            }
+        });
+
         this.serialize.addActionListener(e -> {
             try {
                 saveFileElementSerializeRuta();
@@ -174,7 +193,13 @@ public class AppController {
 
         this.loadBtn.addActionListener(e -> loadFileMolecula());
 
-        this.exportBtn.addActionListener(e -> generaElemento());
+        this.exportBtn.addActionListener(e -> {
+            try {
+                makeClassMolecula();
+            } catch (ClassNotFoundException | NoSuchFieldException | NotFoundException | CannotCompileException ex) {
+                Logger.getLogger(AppController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         this.clearBtn.addActionListener(e -> clearReactor());
         this.reactBtn.addActionListener(e -> reaccionar());
         this.panelReactor.setReactorTableListener(new ReactorTableListener() {
@@ -232,7 +257,7 @@ public class AppController {
                 MoleculaContentList mcl = new MoleculaContentList();
                 mcl.setTextToDislayM(ClassMake.makeMoleculasName(m) + " " + ClassMake.getArrElementosConstructores(m).toString());
                 mcl.setElementos(m.getElementos());
-
+                mcl.setMolecula(m);
                 listModelMolecula.addPersona(mcl);
                 clearReactor();
                 JOptionPane.showMessageDialog(null, "Molecula generada exítosamente", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
@@ -478,21 +503,20 @@ public class AppController {
                 ObjectInputStream ois = new ObjectInputStream(fis);
 
                 try {
-                    List<Elemento> e =  (List<Elemento>) ois.readObject();
-                    
-                    for(int i = 0; i< e.size(); i++){
-                        
+                    List<Elemento> e = (List<Elemento>) ois.readObject();
+
+                    for (int i = 0; i < e.size(); i++) {
+
                         String nameElement = e.get(i).getClass().toString();
                         nameElement = nameElement.substring(16);
                         ReactorData reactorData = new ReactorData(0, nameElement, e.get(i).getValencia());
                         System.out.println(this.dataTableReactorModel);
                         dataTableReactorModel.addRow(reactorData);
-                    
+
                     }
-                    
 
                 } catch (ClassNotFoundException e) {
-                    
+
                     e.printStackTrace();
                 }
                 ois.close();
@@ -565,6 +589,37 @@ public class AppController {
             e.printStackTrace();
         }
         ois.close();
+    }
+
+    public void makeClassMolecula() throws ClassNotFoundException, NoSuchFieldException, NotFoundException, CannotCompileException {
+
+        if (fileChooser.showSaveDialog(panelReactor) == JFileChooser.APPROVE_OPTION) {
+            try {
+
+                int index = listaMoleculas.getSelectedIndex();
+
+                MoleculaContentList moleculaContentList = (MoleculaContentList) this.listModelMolecula.getMolecula(index);
+
+                
+                ClassMake.makeClass(moleculaContentList.getMolecula().getClass().toString(), moleculaContentList.getMolecula(), fileChooser);
+                JOptionPane.showMessageDialog(null, "Clase Generada Exitosamente", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (IOException e1) {
+                JOptionPane.showMessageDialog(panelReactor, "File not loaded", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+
+    }
+
+    public void generaClassMolecula() throws ClassNotFoundException, NoSuchFieldException, NotFoundException, CannotCompileException {
+
+        try {
+
+        } catch (Exception e) {
+
+        }
+
     }
 
 }

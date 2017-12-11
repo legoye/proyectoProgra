@@ -5,6 +5,7 @@
  */
 package utilities;
 
+import Model.Molecula;
 import elementos.Elemento;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -27,26 +29,25 @@ import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtNewConstructor;
 import javassist.NotFoundException;
+import javax.swing.JFileChooser;
 
 public class ClassMake {
 
-    public static void makeClass(String nombreClase, Molecula molecula) throws NotFoundException, CannotCompileException, IOException {
-        String paquete = "elementos";
-        //    String ruta = System.getProperty("user.home") + "/elementos/";
-
+    public static void makeClass(String nombreClase, Molecula molecula , JFileChooser fileChooser) throws NotFoundException, CannotCompileException, IOException {
+        
+       
         String ruta = new File("").getAbsolutePath();
         System.out.println(ruta);
         ClassPool pool = ClassPool.getDefault();
         CtClass cc = pool.makeClass(nombreClase);
         CtClass CompuestoPadre = pool.get("utilities.Molecula");
         cc.setSuperclass(CompuestoPadre);
-        System.out.println("padre " + CompuestoPadre);
-        //
-        //String cadenaAddElementos = "super.elementos.add(new elementos.H(1));super.elementos.add(new elementos.O(2));super.elementos.add(new elementos.H(1));";
+       
         String cadenaAddElementos = "";
-        List<String> arrElementosConstructores = getArrElementosConstructores(molecula);
+        List<Elemento> arrElementosConstructores = molecula.getElementos();
         for (int i = 0; i < arrElementosConstructores.size(); i++) {
-            cadenaAddElementos += "super.elementos.add(new elementos.O());";
+            //cadenaAddElementos += "super.elementos.add(new elementos.O());";
+            cadenaAddElementos += "super.elementos.add(new elementos."+ arrElementosConstructores.get(i).getClass().toString() +");";
         }
 
         CtConstructor c = CtNewConstructor.make("public " + nombreClase + "(){ " + cadenaAddElementos + "}", cc);
@@ -56,7 +57,10 @@ public class ClassMake {
 
         cc.writeFile();
         System.out.println(ruta);
-        cc.toBytecode(new DataOutputStream(new FileOutputStream(ruta + "/src/" + nombreClase + ".class")));
+        FileOutputStream fos = new FileOutputStream(fileChooser.getSelectedFile());
+    
+        
+        cc.toBytecode(new DataOutputStream(fos));
         cc.writeFile();
     }
 

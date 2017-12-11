@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.ClassMake;
 import utilities.Filtrar;
-import utilities.Molecula;
+import Model.Molecula;
 import utilities.Utilities;
 
 
